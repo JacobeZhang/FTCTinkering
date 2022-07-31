@@ -10,6 +10,7 @@ public class OdoMethods extends Inits {
     double encYoffset = 10;
     double kP_error = 0.1;
     double kP_Heading = 0.1;
+    double thres = 50;
 
     public void updatePose() {
         X1val = encX1.getCurrentPosition();
@@ -44,9 +45,9 @@ public class OdoMethods extends Inits {
         targetY = Ychange + Ypos;
         targetHeading = headingChange + heading;
 
-        double Xerror, Yerror, headingError, distToTarget, error;
+        double Xerror, Yerror, headingError=100, distToTarget, error=100;
 
-        while (opM.opModeIsActive()) {
+        while (Math.abs(error) < thres && Math.abs(headingError) < thres) {
             updatePose();
 
             Xerror = targetX - Xpos;
